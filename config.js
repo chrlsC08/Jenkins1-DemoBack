@@ -1,3 +1,3 @@
 module.exports = {
-    CORS_ORIGIN: 'http://localhost:3000'
+    CORS_ORIGIN: 'ecs-applb-1689158535.us-east-1.elb.amazonaws.com'
 }
