@@ -13,7 +13,6 @@ pipeline {
         BACKEND_SERVICE_NAME = 'backend-service1'
         FRONTEND_REPO_URL = 'https://github.com/chrlsC08/Jenkins-DemoFront.git'
         BACKEND_REPO_URL = 'https://github.com/chrlsC08/Jenkins-DemoBack.git'
-        
     }
     
     stages {
