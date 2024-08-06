@@ -44,7 +44,7 @@ pipeline {
                 stage('Build Frontend Image') {
                     steps {
                         script {
-                            docker.build("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.FRONTEND_ECR_REPOSITORY}:${env.FRONTEND_IMAGE_TAG}", '-f frontend/Dockerfile .')
+                            docker.build("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.FRONTEND_ECR_REPOSITORY}:${env.FRONTEND_IMAGE_TAG}", '-f Dockerfile .')
                         }
                     }
                 }
