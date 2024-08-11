@@ -16,11 +16,6 @@ pipeline {
     }
     
     stages {
-        stage('Cleanup Workspace') {
-            steps {
-                cleanWs()
-            }
-        }
         stage('Clone Repositories') {
             parallel {
                 stage('Clone Frontend Repository') {
