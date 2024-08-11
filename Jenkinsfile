@@ -12,7 +12,7 @@ pipeline {
         FRONTEND_SERVICE_NAME = 'frontend-service1'
         BACKEND_SERVICE_NAME = 'backend-service1'
         FRONTEND_REPO_URL = 'https://github.com/chrlsC08/Jenkins-DemoFront.git'
-        BACKEND_REPO_URL = 'https://github.com/chrlsC08/Jenkins-DemoBack.git'
+        BACKEND_REPO_URL = 'https://github.com/chrlsC08/Jenkins1-DemoBack.git'
     }
     
     stages {
@@ -39,14 +39,14 @@ pipeline {
                 stage('Build Frontend Image') {
                     steps {
                         script {
-                            docker.build("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.FRONTEND_ECR_REPOSITORY}:${env.FRONTEND_IMAGE_TAG}", '-f Dockerfile .')
+                            docker.build("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.FRONTEND_ECR_REPOSITORY}:${env.FRONTEND_IMAGE_TAG}", '-f Dockerfile frontend')
                         }
                     }
                 }
                 stage('Build Backend Image') {
                     steps {
                         script {
-                            docker.build("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.BACKEND_ECR_REPOSITORY}:${env.BACKEND_IMAGE_TAG}", '-f backend/Dockerfile .')
+                            docker.build("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.BACKEND_ECR_REPOSITORY}:${env.BACKEND_IMAGE_TAG}", '-f Dockerfile backend')
                         }
                     }
                 }
@@ -55,7 +55,7 @@ pipeline {
         stage('Login to AWS ECR') {
             steps {
                 script {
-                    sh '$(aws ecr get-login --no-include-email --region $AWS_REGION)'
+                    sh 'aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com'
                 }
             }
         }
@@ -64,7 +64,7 @@ pipeline {
                 stage('Push Frontend Image') {
                     steps {
                         script {
-                            docker.withRegistry("https://${AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com", 'ecr:us-east-1:aws-credentials') {
+                            docker.withRegistry("https://${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com", 'ecr:us-east-1:aws-credentials') {
                                 docker.image("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.FRONTEND_ECR_REPOSITORY}:${env.FRONTEND_IMAGE_TAG}").push()
                             }
                         }
@@ -73,7 +73,7 @@ pipeline {
                 stage('Push Backend Image') {
                     steps {
                         script {
-                            docker.withRegistry("https://${AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com", 'ecr:us-east-1:aws-credentials') {
+                            docker.withRegistry("https://${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com", 'ecr:us-east-1:aws-credentials') {
                                 docker.image("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.BACKEND_ECR_REPOSITORY}:${env.BACKEND_IMAGE_TAG}").push()
                             }
                         }
