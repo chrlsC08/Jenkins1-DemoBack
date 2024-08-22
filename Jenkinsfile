@@ -39,14 +39,14 @@ pipeline {
                 stage('Build Frontend Image') {
                     steps {
                         script {
-                            docker.build("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.FRONTEND_ECR_REPOSITORY}:${env.FRONTEND_IMAGE_TAG}", '-f Dockerfile frontend')
+                            docker.build("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.FRONTEND_ECR_REPOSITORY}:${env.FRONTEND_IMAGE_TAG}", '-f /Dockerfile')
                         }
                     }
                 }
                 stage('Build Backend Image') {
                     steps {
                         script {
-                            docker.build("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.BACKEND_ECR_REPOSITORY}:${env.BACKEND_IMAGE_TAG}", '-f Dockerfile backend')
+                            docker.build("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.BACKEND_ECR_REPOSITORY}:${env.BACKEND_IMAGE_TAG}", '-f /Dockerfile')
                         }
                     }
                 }
